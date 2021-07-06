@@ -9,6 +9,10 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
+            EtatCell et;
+            et=(EtatCell)1;
+            Console.WriteLine(et); 
+
             //// Create the application's main window
             //mainWindow = new Window();
             //mainWindow.Title = "Grid Sample";

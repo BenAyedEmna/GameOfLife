@@ -3,6 +3,7 @@
 
 public enum EtatCell
 {
-    viante,
-    morte
+    morte,
+    viante
 }
+

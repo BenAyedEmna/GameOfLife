@@ -18,12 +18,12 @@ namespace GameOfLife
             {
                 for(j=0;j<this.Grid.NbreLine;i++)
                 {
-                    AliveNeighbors = this.Grid.CelluleGrid[i][j].AliveNeighbors(); 
-                    if(AliveNeighbors==3)
+                    AliveNeighbors = this.Grid.CelluleGrid[i][j].AliveNeighbors(Grid); 
+                    if((AliveNeighbors==3)&&(this.Grid.CelluleGrid[i][j].Etat!=EtatCell.viante))
                     {
                         this.Grid.CelluleGrid[i][j].Etat = EtatCell.viante;
                     }
-                    if((AliveNeighbors < 2) || (AliveNeighbors > 3))
+                    if((AliveNeighbors<2)||(AliveNeighbors>3)&&(this.Grid.CelluleGrid[i][j].Etat!=EtatCell.morte))
                     {
                         this.Grid.CelluleGrid[i][j].Etat = EtatCell.morte;
                     }
