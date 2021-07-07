@@ -11,48 +11,40 @@ namespace UniTest
         [TestMethod]
         public void Grid_RowNegatif_ThrowsArgumentOutOfRangeException()
         {
-            int nbrRow,nbrColumn;
-            nbrRow = -3;
-            nbrColumn = 6;
-            Grid grid;   
-            Assert.ThrowsException<System.ArgumentOutOfRangeException>( () => grid=new Grid(nbrRow,nbrColumn));
+            var nbrRow = -3;
+            var nbrColumn = 6;
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>( () => new Grid(nbrRow,nbrColumn, new RandomGenerator()));
         }
 
         [TestMethod]
         public void Grid_columnNegatif_ThrowsArgumentOutOfRangeException()
         {
-            int nbrRow, nbrColumn;
-            nbrRow = 10;
-            nbrColumn = -6;
-            Grid grid;
-            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => grid=new Grid(nbrRow,nbrColumn));
+            var nbrRow = 10;
+            var nbrColumn = -6;
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => new Grid(nbrRow,nbrColumn, new RandomGenerator()));
         }
 
         [TestMethod]
         public void Grid_RowcolumnNegatif_ThrowsArgumentOutOfRangeException()
         {
-            int nbrRow, nbrColumn;
-            nbrRow = -8;
-            nbrColumn = -13;
-            Grid grid;
-            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => grid=new Grid(nbrRow, nbrColumn));
+            var nbrRow = -8;
+            var nbrColumn = -13;
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => new Grid(nbrRow, nbrColumn, new RandomGenerator()));
         }
         
         [TestMethod]
         public void Grid_OneCellule()
         {
-            Grid grid;
-            grid = new Grid(1,1);
+            var grid = new Grid(1,1, new RandomGenerator());
             grid.CreateGrid(); 
             grid.NextGeneration();
-            Assert.IsTrue(grid.CelluleGrid[0][0].Etat == EtatCell.morte); 
+            Assert.IsTrue(grid.CelluleGrid[0][0].IsDead()); 
         }
 
         [TestMethod]
         public void CreateGrid_NbreCelluleTotal_GridCreated()
         {
-            Grid grid;
-            grid = new Grid(4,7);
+            var grid = new Grid(4,7, new RandomGenerator());
             grid.CreateGrid();
             int CellTotalNbr,AliveCellNbr=0, DeadCellNbr = 0;
             CellTotalNbr = grid.NbreLine * grid.NbreColumn; 
@@ -60,22 +52,31 @@ namespace UniTest
             {
                 foreach(Cellule Cell in Column)
                 {
-                    if(Cell.Etat == EtatCell.viante)
+                    if(Cell.IsAlive())
                         AliveCellNbr++;
                     else
                     {
-                        if(Cell.Etat == EtatCell.morte)
+                        if(Cell.IsDead())
                             DeadCellNbr++;
                     }
-                    
                 }
             }
             Assert.AreEqual(CellTotalNbr, DeadCellNbr + AliveCellNbr); 
         }
 
+        [TestMethod]
+        public void CreateGrid_AllTheCellAreDead()
+        {
+            var grid = new Grid(4, 7, new RandomGeneratorWithDeadCell());
+            grid.CreateGrid();
 
-
-
-       
+            foreach (List<Cellule> column in grid.CelluleGrid)
+            {
+                foreach (Cellule cell in column)
+                {
+                    Assert.IsTrue(cell.IsDead());
+                }
+            }
+        }
     }
 }

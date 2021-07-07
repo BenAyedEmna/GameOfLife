@@ -6,42 +6,33 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GameOfLife;
 
-
-
 namespace UniTest
 {
     [TestClass]
-
-    class CelulleTest
+    public class CelulleTest
     {
         [TestMethod]
         public void Cellule_RowNegatif_ThrowsArgumentOutOfRangeException()
         {
-            int Row, Column;
-            Row = -4;
-            Column = 6;
-            Cellule Cell; 
-            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => Cell=new Cellule(Row,Column));
+            var row = -4;
+            var column = 6;
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => new Cellule(row,column, EtatCell.viante));
         }
 
         [TestMethod]
         public void Cellule_ColumnNegatif_ThrowsArgumentOutOfRangeException()
         {
-            int Row, Column;
-            Row = 4;
-            Column = -6;
-            Cellule Cell; 
-            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => Cell=new Cellule(Row, Column));
+            var row = 4;
+            var column = -6;
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => new Cellule(row, column, EtatCell.viante));
         }
 
         [TestMethod]
         public void Cellule_RowColumnNegatif_ThrowsArgumentOutOfRangeException()
         {
-            int Row, Column;
-            Row = -4;
-            Column = -6;
-            Cellule Cell;
-            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => Cell = new Cellule(Row, Column));
+            var row = -4;
+            var column = -6;
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => new Cellule(row, column, EtatCell.viante));
         }
 
     }

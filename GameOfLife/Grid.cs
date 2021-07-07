@@ -8,21 +8,25 @@ namespace GameOfLife
 {
     public class Grid
     {
+        private readonly IRandomGenerator _randomGenerator;
         public int NbreLine { get; }
         public int NbreColumn { get; }
         public List<List<Cellule>> CelluleGrid { get; set; }
 
-        public Grid(int Line, int Column)
+        public Grid(int Line, int Column, IRandomGenerator randomGenerator)
         {
             if (Line < 0)
             {
-                if (Column < 0)
-                    throw new ArgumentOutOfRangeException("le nombre de lignes et de colonnes d'une grille doient etre positif");
-                else
-                    throw new ArgumentOutOfRangeException("le nombre de lignes d'une grille doit etre poositif");
+                throw new ArgumentOutOfRangeException("le nombre de lignes d'une grille doit etre poositif");
             }
+
             if (Column < 0)
+            {
                 throw new ArgumentOutOfRangeException("le nombre de colonnes d'une grille doit etre positif");
+            }
+
+            _randomGenerator = randomGenerator;
+
             this.NbreLine = Line;
             this.NbreColumn = Column;
         }
@@ -31,7 +35,6 @@ namespace GameOfLife
         {
             this.CelluleGrid = new List<List<Cellule>>();
             int i, j;
-            Random rnd = new Random();
             List<Cellule> CellList;
             CellList = new List<Cellule>();
             Cellule Cell;
@@ -41,32 +44,30 @@ namespace GameOfLife
                 this.CelluleGrid.Add(CellList);
                 for (j = 0; j < this.NbreLine; j++)
                 {
-                    Cell = new Cellule(j,i);
-                    Cell.Etat = (EtatCell)rnd.Next(2);
+                    var initialState = _randomGenerator.GetRandomCellState();
+                    Cell = new Cellule(j, i, initialState);
                     CellList.Add(Cell);
                 }
             }
         }
         public void NextGeneration()
         {
-            int AliveNeighbors;
+            int aliveNeighbors;
             foreach (List<Cellule> Column in this.CelluleGrid)
             {
                 foreach (Cellule Cell in Column)
                 {
-                    AliveNeighbors = Cell.AliveNeighbors(this);
-                    if ((AliveNeighbors==3) && (Cell.Etat != EtatCell.viante))
+                    aliveNeighbors = Cell.AliveNeighbors(this);
+                    if ((aliveNeighbors == 3) && (Cell.IsDead()))
                     {
-                        Cell.Etat = EtatCell.viante;
+                        Cell.BecomeAlive();
                     }
-                    if((AliveNeighbors<2) || (AliveNeighbors > 3) && (Cell.Etat != EtatCell.morte))
+                    if ((aliveNeighbors<2) || (aliveNeighbors > 3) && (Cell.IsAlive()))
                     {
-                        Cell.Etat = EtatCell.morte;
+                        Cell.BecomeDead();
                     }
                 }
-
             }
-
         }
     }
 }        
