@@ -35,13 +35,13 @@ namespace GameOfLife
             List<Cellule> CellList;
             CellList = new List<Cellule>();
             Cellule Cell;
-            for (i = 0; i < this.NbreColumn; i++)
+            for(i=0;i<this.NbreColumn;i++)
             {
                 CellList = new List<Cellule>();
                 this.CelluleGrid.Add(CellList);
                 for (j = 0; j < this.NbreLine; j++)
                 {
-                    Cell = new Cellule(j, i);
+                    Cell = new Cellule(j,i);
                     Cell.Etat = (EtatCell)rnd.Next(2);
                     CellList.Add(Cell);
                 }
@@ -55,11 +55,11 @@ namespace GameOfLife
                 foreach (Cellule Cell in Column)
                 {
                     AliveNeighbors = Cell.AliveNeighbors(this);
-                    if ((AliveNeighbors == 3) && (Cell.Etat != EtatCell.viante))
+                    if ((AliveNeighbors==3) && (Cell.Etat != EtatCell.viante))
                     {
                         Cell.Etat = EtatCell.viante;
                     }
-                    if ((AliveNeighbors<2) || (AliveNeighbors > 3) && (Cell.Etat != EtatCell.morte))
+                    if((AliveNeighbors<2) || (AliveNeighbors > 3) && (Cell.Etat != EtatCell.morte))
                     {
                         Cell.Etat = EtatCell.morte;
                     }
