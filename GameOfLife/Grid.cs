@@ -8,49 +8,65 @@ namespace GameOfLife
 {
     public class Grid
     {
-        public int NbreLine { get; set; }
-        public int NbreColumn { get; set; }
+        public int NbreLine { get; }
+        public int NbreColumn { get; }
         public List<List<Cellule>> CelluleGrid { get; set; }
 
-        public Grid(int Line,int Column)
+        public Grid(int Line, int Column)
         {
-            if(Line<0)
+            if (Line < 0)
             {
-                if (Column<0)
+                if (Column < 0)
                     throw new ArgumentOutOfRangeException("le nombre de lignes et de colonnes d'une grille doient etre positif");
                 else
                     throw new ArgumentOutOfRangeException("le nombre de lignes d'une grille doit etre poositif");
             }
-            if (Column<0)
+            if (Column < 0)
                 throw new ArgumentOutOfRangeException("le nombre de colonnes d'une grille doit etre positif");
-
             this.NbreLine = Line;
-            this.NbreColumn = Column; 
+            this.NbreColumn = Column;
         }
 
         public void CreateGrid()
         {
-            if(this.NbreLine<0)
-            {
-                if (this.NbreColumn < 0)
-                    throw new ArgumentOutOfRangeException("on ne peut pas creer une grille avec des dimensions negatives"); 
-            }                   
-            if(this.NbreColumn<0)
-                throw new ArgumentOutOfRangeException("on ne peut pas creer une grille avec des dimensions negatives");
-
-            this.CelluleGrid = new List<List<Cellule>>(); 
-            int i,j;
+            this.CelluleGrid = new List<List<Cellule>>();
+            int i, j;
             Random rnd = new Random();
-            for (i=0;i<this.NbreColumn;i++)
+            List<Cellule> CellList;
+            CellList = new List<Cellule>();
+            Cellule Cell;
+            for (i = 0; i < this.NbreColumn; i++)
             {
-                this.CelluleGrid[i] = new List<Cellule>(); 
-                for (j=0;j<this.NbreLine;i++)
+                CellList = new List<Cellule>();
+                this.CelluleGrid.Add(CellList);
+                for (j = 0; j < this.NbreLine; j++)
                 {
-                    this.CelluleGrid[i][j] = new Cellule(j,i); 
-                    this.CelluleGrid[i][j].Etat = (EtatCell)rnd.Next(2);   
+                    Cell = new Cellule(j, i);
+                    Cell.Etat = (EtatCell)rnd.Next(2);
+                    CellList.Add(Cell);
                 }
             }
         }
+        public void NextGeneration()
+        {
+            int AliveNeighbors;
+            foreach (List<Cellule> Column in this.CelluleGrid)
+            {
+                foreach (Cellule Cell in Column)
+                {
+                    AliveNeighbors = Cell.AliveNeighbors(this);
+                    if ((AliveNeighbors == 3) && (Cell.Etat != EtatCell.viante))
+                    {
+                        Cell.Etat = EtatCell.viante;
+                    }
+                    if ((AliveNeighbors<2) || (AliveNeighbors > 3) && (Cell.Etat != EtatCell.morte))
+                    {
+                        Cell.Etat = EtatCell.morte;
+                    }
+                }
 
+            }
+
+        }
     }
-}
+}        

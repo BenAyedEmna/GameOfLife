@@ -21,17 +21,27 @@ namespace UniTest
             Row = -4;
             Column = 6;
             Cellule Cell; 
-            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>Cell=new Cellule(Row,Column));
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => Cell=new Cellule(Row,Column));
         }
 
         [TestMethod]
         public void Cellule_ColumnNegatif_ThrowsArgumentOutOfRangeException()
         {
             int Row, Column;
-            Row = -4;
-            Column = 6;
+            Row = 4;
+            Column = -6;
             Cellule Cell; 
             Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => Cell=new Cellule(Row, Column));
+        }
+
+        [TestMethod]
+        public void Cellule_RowColumnNegatif_ThrowsArgumentOutOfRangeException()
+        {
+            int Row, Column;
+            Row = -4;
+            Column = -6;
+            Cellule Cell;
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => Cell = new Cellule(Row, Column));
         }
 
     }
