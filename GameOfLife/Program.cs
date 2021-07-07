@@ -9,9 +9,11 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            EtatCell et;
-            et=(EtatCell)1;
-            Console.WriteLine(et); 
+            Grid grr;
+            grr = new Grid(9,8);
+            grr.NbreColumn = -6;
+            Console.WriteLine(grr.NbreColumn); 
+            grr.CelluleGrid=null; 
 
             //// Create the application's main window
             //mainWindow = new Window();

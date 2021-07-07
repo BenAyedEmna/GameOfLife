@@ -18,6 +18,16 @@ namespace GameOfLife
         }
         public Cellule(int row,int column,EtatCell etat)
         {
+            if(row<0)
+            {
+                if (column < 0)
+                    throw new ArgumentOutOfRangeException("les cordonnes d'une cellule doient etre positives");
+                else
+                    throw new ArgumentOutOfRangeException("la ligne de la cellule doit etre positive"); 
+            }
+            if(column<0)
+                throw new ArgumentOutOfRangeException("la colonne de la cellule doit etre positive");
+
             this.Row = row;
             this.Column = column;
             this.Etat = etat;

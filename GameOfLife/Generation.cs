@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GameOfLife
 {
 
-    class Generation
+    public class Generation
     {
         Grid Grid; 
         public void NextGeneration()
