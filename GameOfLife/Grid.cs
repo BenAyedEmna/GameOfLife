@@ -45,27 +45,8 @@ namespace GameOfLife
                 for (j = 0; j < this.NbreLine; j++)
                 {
                     var initialState = _randomGenerator.GetRandomCellState();
-                    Cell = new Cellule(j, i, initialState);
+                    Cell = new Cellule(j,i,initialState);
                     CellList.Add(Cell);
-                }
-            }
-        }
-        public void NextGeneration()
-        {
-            int aliveNeighbors;
-            foreach (List<Cellule> Column in this.CelluleGrid)
-            {
-                foreach (Cellule Cell in Column)
-                {
-                    aliveNeighbors = Cell.AliveNeighbors(this);
-                    if ((aliveNeighbors == 3) && (Cell.IsDead()))
-                    {
-                        Cell.BecomeAlive();
-                    }
-                    if ((aliveNeighbors<2) || (aliveNeighbors > 3) && (Cell.IsAlive()))
-                    {
-                        Cell.BecomeDead();
-                    }
                 }
             }
         }

@@ -14,6 +14,15 @@ namespace GameOfLife
 
         public Cellule(int row, int column, EtatCell etat)
         {
+            if (row<0)
+            {
+                if(column<0)
+                    throw new ArgumentOutOfRangeException("les cordonnes d'une cellule doient etre positives");
+                else
+                    throw new ArgumentOutOfRangeException("la ligne de la cellule doit etre positive");
+            }
+            if (column<0)
+                throw new ArgumentOutOfRangeException("la colonne de la cellule doit etre positive");
             this._row = row;
             this._column = column;
             this._etat = etat;
@@ -23,32 +32,32 @@ namespace GameOfLife
             int AliveNeighbors = 0;
             if (this._row + 1 < grid.NbreLine)
             {
-                if (grid.CelluleGrid[this._row + 1][this._column].IsAlive())
+                if (grid.CelluleGrid[this._column][this._row + 1].IsAlive())
                     AliveNeighbors++;
 
-                if ((this._column > 0) && (grid.CelluleGrid[this._row + 1][this._column - 1].IsAlive()))
+                if ((this._column > 0) && (grid.CelluleGrid[this._column - 1][this._row + 1].IsAlive()))
                     AliveNeighbors++;
 
-                if ((this._column + 1 < grid.NbreColumn) && (grid.CelluleGrid[this._row + 1][this._column + 1].IsAlive()))
+                if ((this._column + 1 < grid.NbreColumn) && (grid.CelluleGrid[this._column + 1][this._row + 1].IsAlive()))
                     AliveNeighbors++;
             }
 
             if (this._row > 0)
             {
-                if (grid.CelluleGrid[this._row - 1][this._column].IsAlive())
+                if (grid.CelluleGrid[this._column][this._row - 1].IsAlive())
                     AliveNeighbors++;
 
-                if ((this._column > 0) && (grid.CelluleGrid[this._row - 1][this._column - 1].IsAlive()))
+                if ((this._column > 0) && (grid.CelluleGrid[this._column - 1][this._row - 1].IsAlive()))
                     AliveNeighbors++;
 
-                if ((this._column + 1 < grid.NbreColumn) && (grid.CelluleGrid[this._row - 1][this._column + 1].IsAlive()))
+                if ((this._column + 1 < grid.NbreColumn) && (grid.CelluleGrid[this._column + 1][this._row - 1].IsAlive()))
                     AliveNeighbors++;
             }
 
-            if ((this._column > 0) && (grid.CelluleGrid[this._row][this._column + 1].IsAlive()))
+            if ((this._column+1 <this._column) && (grid.CelluleGrid[this._column + 1][this._row].IsAlive()))
                 AliveNeighbors++;
 
-            if ((this._column + 1 < grid.NbreColumn) && (grid.CelluleGrid[this._row][this._column - 1].IsAlive()))
+            if ((this._column-1>0) && (grid.CelluleGrid[this._column - 1][this._row].IsAlive()))
                 AliveNeighbors++;
 
             return AliveNeighbors;

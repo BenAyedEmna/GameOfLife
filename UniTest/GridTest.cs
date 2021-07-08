@@ -36,8 +36,9 @@ namespace UniTest
         public void Grid_OneCellule()
         {
             var grid = new Grid(1,1, new RandomGenerator());
-            grid.CreateGrid(); 
-            grid.NextGeneration();
+            grid.CreateGrid();
+            Generation Generation1 = new Generation();
+            Generation1.NextGeneration(grid); 
             Assert.IsTrue(grid.CelluleGrid[0][0].IsDead()); 
         }
 
@@ -78,5 +79,51 @@ namespace UniTest
                 }
             }
         }
+
+        [TestMethod]
+        public void CreateGrid_AllTheCellAreAlive()
+        {
+            var grid = new Grid(4, 4, new RandomGeneratorWithAliveCell());
+            grid.CreateGrid();
+            foreach (List<Cellule> Column in grid.CelluleGrid)
+            {
+                foreach (Cellule Cell in Column)
+                {
+                    Assert.IsTrue(Cell.IsAlive()); 
+                }
+            }
+        }
+
+        [TestMethod]
+        public void CreateGridNextGeneration_AllTheCellAreAlive()
+        {
+            var grid = new Grid(4,4,new RandomGeneratorWithAliveCell());
+            grid.CreateGrid();
+            Generation Generation1 = new Generation();
+            Generation1.NextGeneration(grid);
+            int AliveCellNbr = 0;
+            foreach (List<Cellule> Column in grid.CelluleGrid)
+            {
+                foreach (Cellule Cell in Column)
+                {
+                    if (Cell.IsAlive())
+                        AliveCellNbr++;
+                }
+            }
+            Assert.IsTrue((grid.CelluleGrid[0][0].IsAlive()) && (grid.CelluleGrid[0][3].IsAlive()) && (grid.CelluleGrid[3][0].IsAlive()) && (grid.CelluleGrid[3][3].IsAlive()));
+            Assert.AreEqual(AliveCellNbr,4); 
+            Generation1.NextGeneration(grid);
+            foreach (List<Cellule> Column in grid.CelluleGrid)
+            {
+                foreach (Cellule Cell in Column)
+                {
+                    if (Cell.IsAlive())
+                        AliveCellNbr++;
+                }
+            }
+            Assert.AreEqual(AliveCellNbr,0);
+        }
     }
+
+
 }
