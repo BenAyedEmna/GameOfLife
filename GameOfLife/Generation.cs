@@ -1,35 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 
 namespace GameOfLife
 {
     public class Generation
     {
-        //public Grid grid { get; set; }
-        //public Generation(Grid grille)
-        //{
-        //    this.grid = grille; 
-        //}
-        public void NextGeneration(Grid grid)
+
+        public Grid NextGeneration(Grid grid)
         {
-            int aliveNeighbors;
-            foreach (List<Cellule> Column in grid.CelluleGrid)
+            int Row, Column, AliveNeighbors;
+            Grid NewGrid = new Grid(grid.NbreLine, grid.NbreColumn,new RandomGenerator());
+            NewGrid.CreateGrid(); 
+            for (Column = 0; Column < grid.NbreColumn; Column++)
             {
-                foreach (Cellule Cell in Column)
+                for (Row = 0; Row < grid.NbreLine; Row++)
                 {
-                    aliveNeighbors = Cell.AliveNeighbors(grid);
-                    if ((aliveNeighbors == 3) && (Cell.IsDead()))
-                        Cell.BecomeAlive();
+                    AliveNeighbors = 0;
+                    AliveNeighbors = grid.CelluleGrid[Column][Row].AliveNeighbors(grid); 
+
+                    if ((AliveNeighbors == 3) && (NewGrid.CelluleGrid[Column][Row].IsDead()))
+                        NewGrid.CelluleGrid[Column][Row].BecomeAlive();
                     else
                     {
-                        if (((aliveNeighbors < 2) || (aliveNeighbors > 3)) && (Cell.IsAlive()))
-                            Cell.BecomeDead();
-                    }
+                        if ((AliveNeighbors < 2) && (NewGrid.CelluleGrid[Column][Row].IsAlive()))
+                            NewGrid.CelluleGrid[Column][Row].BecomeDead() ;
+                        else
+                        {
+                            if ((AliveNeighbors > 3) && (NewGrid.CelluleGrid[Column][Row].IsAlive()))
+                                NewGrid.CelluleGrid[Column][Row].BecomeDead();
+                            else
+                            if (AliveNeighbors == 2)
+                                NewGrid.CelluleGrid[Column][Row]=grid.CelluleGrid[Column][Row];
+                        }
+                    }            
                 }
             }
+            return NewGrid;
         }
     }
 }
+
+
+
+
+
+
+
+
+

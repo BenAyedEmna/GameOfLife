@@ -12,7 +12,6 @@ namespace GameOfLife
         public int NbreLine { get; }
         public int NbreColumn { get; }
         public List<List<Cellule>> CelluleGrid { get; set; }
-
         public Grid(int Line, int Column, IRandomGenerator randomGenerator)
         {
             if (Line < 0)
@@ -41,13 +40,13 @@ namespace GameOfLife
             for(i=0;i<this.NbreColumn;i++)
             {
                 CellList = new List<Cellule>();
-                this.CelluleGrid.Add(CellList);
                 for (j = 0; j < this.NbreLine; j++)
                 {
                     var initialState = _randomGenerator.GetRandomCellState();
                     Cell = new Cellule(j,i,initialState);
                     CellList.Add(Cell);
                 }
+                this.CelluleGrid.Add(CellList);
             }
         }
     }

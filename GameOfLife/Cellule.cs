@@ -29,6 +29,15 @@ namespace GameOfLife
         }
         public int AliveNeighbors(Grid grid)
         {
+            //int aliveNeighbours = 0;
+
+            //for (int i = -1; i <= 1; i++)
+
+            //    for (int j = -1; j <= 1; j++)
+            //        if(grid.CelluleGrid[grid.NbreColumn+i][grid.NbreLine+j].IsAlive())
+            //            aliveNeighbours += 1; 
+            //return aliveNeighbours; 
+
             int AliveNeighbors = 0;
             if (this._row + 1 < grid.NbreLine)
             {
@@ -54,12 +63,11 @@ namespace GameOfLife
                     AliveNeighbors++;
             }
 
-            if ((this._column+1 <this._column) && (grid.CelluleGrid[this._column + 1][this._row].IsAlive()))
+            if ((this._column + 1 < grid.NbreColumn) && (grid.CelluleGrid[this._column + 1][this._row].IsAlive()))
                 AliveNeighbors++;
 
-            if ((this._column-1>0) && (grid.CelluleGrid[this._column - 1][this._row].IsAlive()))
+            if ((this._column > 0) && (grid.CelluleGrid[this._column - 1][this._row].IsAlive()))
                 AliveNeighbors++;
-
             return AliveNeighbors;
         }
 

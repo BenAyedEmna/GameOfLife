@@ -38,8 +38,9 @@ namespace UniTest
             var grid = new Grid(1,1, new RandomGenerator());
             grid.CreateGrid();
             Generation Generation1 = new Generation();
-            Generation1.NextGeneration(grid); 
-            Assert.IsTrue(grid.CelluleGrid[0][0].IsDead()); 
+            Grid grid2;
+            grid2=Generation1.NextGeneration(grid);
+            Assert.IsTrue(grid2.CelluleGrid[0][0].IsDead()); 
         }
 
         [TestMethod]
@@ -100,28 +101,18 @@ namespace UniTest
             var grid = new Grid(4,4,new RandomGeneratorWithAliveCell());
             grid.CreateGrid();
             Generation Generation1 = new Generation();
-            Generation1.NextGeneration(grid);
-            int AliveCellNbr = 0;
-            foreach (List<Cellule> Column in grid.CelluleGrid)
+            grid=Generation1.NextGeneration(grid);
+            int AliveCellNbr = 0,i,j;
+            for(i=0;i<grid.NbreColumn;i++)
             {
-                foreach (Cellule Cell in Column)
+                for(j=0;j<grid.NbreLine;j++)
                 {
-                    if (Cell.IsAlive())
+                    if (grid.CelluleGrid[i][j].IsAlive())
                         AliveCellNbr++;
                 }
             }
             Assert.IsTrue((grid.CelluleGrid[0][0].IsAlive()) && (grid.CelluleGrid[0][3].IsAlive()) && (grid.CelluleGrid[3][0].IsAlive()) && (grid.CelluleGrid[3][3].IsAlive()));
-            Assert.AreEqual(AliveCellNbr,4); 
-            Generation1.NextGeneration(grid);
-            foreach (List<Cellule> Column in grid.CelluleGrid)
-            {
-                foreach (Cellule Cell in Column)
-                {
-                    if (Cell.IsAlive())
-                        AliveCellNbr++;
-                }
-            }
-            Assert.AreEqual(AliveCellNbr,0);
+            Assert.AreEqual(AliveCellNbr,4);     
         }
     }
 
